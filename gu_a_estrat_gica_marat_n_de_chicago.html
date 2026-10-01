@@ -1,655 +1,373 @@
-<!DOCTYPE html><html lang="es"><head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
-    <title>Plan Estratégico - Maratón de Chicago</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Interactivo - Maratón de Chicago</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        chicago: {
+                            blue: '#0033A0',
+                            red: '#D31145',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* ========================================================
-           REQUIRED BOILERPLATE CSS (Do not modify base metrics)
-           ======================================================== */
-        @page { margin: 0; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; }
-        html { background-color: #ffffff; }
-        @media (prefers-color-scheme: dark) {
-            html { background-color: #1f1f1f; }
-        }
-        body { 
-            padding: 24px 0;
-            margin: 0 auto;
-            max-width: 900px !important;
-            border: none !important;
-            background: transparent !important; 
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: #1a1a1a;
-        }
-        .page {
-            height: 297mm;
-            margin: 0 auto 12px auto;
-            padding: 18mm 18mm 12mm 18mm;
-            background-color: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.12);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-        @media screen and (max-width: 600px) {
-            body { padding: 16px 0; }
-            .page {
-                margin: 0 auto 8px auto;
-                border: none;
-                padding: 12px 20px;
-            }
-        }
-        .page-content {
-            flex: 1 1 0;
-            min-height: 0;
-            overflow: hidden;
-        }
-        .page-footer {
-            flex-shrink: 0;
-            margin-top: auto;
-            padding-top: 4mm;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 8.5pt;
-            color: #64748b;
-            border-top: 1px solid #e2e8f0;
-        }
-        @media print {
-            *, *::before, *::after {
-                box-shadow: none !important;
-                text-shadow: none !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            body { padding: 0; background: none; }
-            .page {
-                margin: 0;
-                border: none;
-                height: 297mm;
-                break-after: page;
-                page-break-after: always;
-            }
-            .page:last-child { break-after: auto; page-break-after: auto; }
-        }
-        [contenteditable]:focus { outline: none; }
-
-        /* ========================================================
-           CUSTOM DOCUMENT STYLING (Premium Editorial)
-           Theme: Chicago Marathon (Navy Blue, Crimson Red, Slate)
-           ======================================================== */
-        :root {
-            --chicago-blue: #0033A0;
-            --chicago-red: #D31145;
-            --slate-100: #f1f5f9;
-            --slate-200: #e2e8f0;
-            --slate-700: #334155;
-            --slate-800: #1e293b;
-        }
-
-        h1, h2, h3, h4 { margin: 0 0 10px 0; font-family: 'Arial', sans-serif; }
-        p { margin: 0 0 12px 0; font-size: 10.5pt; line-height: 1.5; color: #333; }
-        ul, ol { margin: 0 0 12px 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.5; color: #333; }
-        li { margin-bottom: 4px; }
-
-        /* Masthead / Cover Elements */
-        .masthead {
-            background-color: var(--chicago-blue);
-            color: #ffffff;
-            padding: 24px;
-            border-bottom: 6px solid var(--chicago-red);
-            margin-bottom: 20px;
-            position: relative;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
-        .ronclub-logo {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            height: 35px;
-            background: #ffffff;
-            padding: 4px 10px;
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        
+        /* Slider Personalizado */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #D31145;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
             border-radius: 4px;
         }
-
-        .masthead-title { font-size: 24pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .masthead-subtitle { font-size: 14pt; font-weight: 400; color: #e0e7ff; margin-top: 8px; }
+        input[type=range]:focus { outline: none; }
         
-        /* Typography */
-        .section-title {
-            font-size: 16pt;
-            font-weight: 700;
-            color: var(--chicago-blue);
-            border-bottom: 2px solid var(--slate-200);
-            padding-bottom: 6px;
-            margin-top: 10px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-        }
-        .accent-text { color: var(--chicago-red); font-weight: bold; }
-
-        /* Grid Layouts */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        /* Efectos Checklist */
+        .check-row { transition: all 0.3s ease; }
+        .checked-row td { color: #94a3b8; text-decoration: line-through; background-color: #f1f5f9; }
+        .checked-row .no-strike { text-decoration: none; }
         
-        /* Cards & Callouts */
-        .metric-card {
-            background: var(--slate-100);
-            border-left: 4px solid var(--chicago-blue);
-            padding: 14px;
-        }
-        .metric-label { font-size: 9pt; text-transform: uppercase; color: var(--slate-700); letter-spacing: 0.5px; }
-        .metric-value { font-size: 18pt; font-weight: 800; color: var(--chicago-blue); margin-top: 4px; }
-        
-        .callout {
-            background: #fff0f2;
-            border: 1px solid #ffd6de;
-            border-left: 4px solid var(--chicago-red);
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            font-size: 10pt;
-        }
-        .callout-title { font-weight: bold; color: var(--chicago-red); margin-bottom: 4px; display: block; }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-            font-size: 9.5pt;
-        }
-        th, td {
-            padding: 8px 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--slate-200);
-        }
-        th {
-            background-color: var(--chicago-blue);
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 8.5pt;
-            letter-spacing: 0.5px;
-        }
-        tr:nth-child(even) td { background-color: var(--slate-100); }
-        .td-highlight { font-weight: bold; color: var(--chicago-blue); }
-        .td-alert { color: var(--chicago-red); font-weight: bold; }
-
-        /* Visual Containers */
-        .chart-container {
-            width: 100%;
-            background: var(--slate-100);
-            border: 1px solid var(--slate-200);
-            padding: 16px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        
-        /* Utilities */
-        .text-center { text-align: center; }
-        .mt-4 { margin-top: 16px; }
-        .mb-2 { margin-bottom: 8px; }
-        .w-full { width: 100%; }
-        
+        /* SVG Tooltips animaciones */
+        .marker-group { cursor: pointer; transition: transform 0.2s; }
+        .marker-group:hover { transform: scale(1.1); }
     </style>
 </head>
-<body>
-<div contenteditable="true">
+<body class="text-slate-800 pb-12">
 
-    <!-- ========================================================
-         PAGE 1: COVER & EXECUTIVE SUMMARY
-         ======================================================== -->
-    <section class="page">
-        <div class="page-content">
-            
-            <div class="masthead">
-                <img src="Logo principal_negro@4x - copia.png" alt="RonClub Logo" class="ronclub-logo">
-                <div class="masthead-title">Guía Oficial de Carrera</div>
-                <div style="font-size: 16pt; font-weight: 600; margin-top: 4px;">MARATÓN DE CHICAGO</div>
-                <div class="masthead-subtitle">Plan Estratégico Personalizado para Kevin Chávez</div>
+    <header class="bg-chicago-blue text-white py-6 px-4 md:px-8 border-b-4 border-chicago-red sticky top-0 z-50 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide">Chicago Marathon</h1>
+                <p class="text-blue-200 text-sm md:text-base mt-1">Estrategia Dinámica para Kevin Chávez</p>
             </div>
-
-            <div class="grid-3">
-                <div class="metric-card">
-                    <div class="metric-label">Tiempo Objetivo</div>
-                    <div class="metric-value">3h 52m</div>
-                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">(Rango: 3:50:00 - 3:55:00)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Ritmo Promedio</div>
-                    <div class="metric-value">5:30 <span style="font-size: 12pt;">min/km</span></div>
-                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">(Rango: 5:25 - 5:35)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Fecha del Evento</div>
-                    <div class="metric-value" style="font-size: 16pt;">11 Octubre</div>
-                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">Grant Park, Chicago</div>
-                </div>
+            <div class="bg-white p-2 rounded-md shadow-sm h-12 flex items-center">
+                <img src="Logo principal_negro@4x - copia.png" alt="RonClub" class="h-8 object-contain" onerror="this.src='https://placehold.co/120x40/ffffff/000000?text=RonClub'">
             </div>
-
-            <h2 class="section-title">2. Resumen Ejecutivo</h2>
-            
-            <p><strong>Objetivo de Carrera:</strong> Completar el Maratón de Chicago en un tiempo de 3 horas y 52 minutos, ejecutando una carrera muy inteligente: empezaremos con un trote suave y conservador para guardar energía, llegando al kilómetro 30 con piernas y mente frescas para evitar el temido "muro".</p>
-            
-            <p><strong>Estrategia General (Ritmo):</strong> Chicago es un circuito muy plano, lo que a veces nos engaña y nos hace salir muy rápido. La clave de este plan es la paciencia al inicio. Los primeros 5 km se correrán de forma muy conservadora (5:40 min/km) para calentar el cuerpo. Entre el km 10 y 30 entraremos en nuestro ritmo ideal (5:25 - 5:30), cuidando los músculos para el final.</p>
-            
-            <div class="grid-2">
-                <div>
-                    <h3 style="font-size: 11pt; color: var(--chicago-blue);">Estrategia Nutricional</h3>
-                    <p>Para no saturar tu estómago y usar lo que ya hemos practicado, tomaremos <strong>un gel exactamente cada 6 kilómetros</strong>. Es fácil de recordar y mantendrá tu energía al tope. Usaremos geles con cafeína en la segunda mitad (km 24 y km 36) para darte un empujón extra cuando empiece el cansancio.</p>
-                </div>
-                <div>
-                    <h3 style="font-size: 11pt; color: var(--chicago-blue);">Estrategia Mental</h3>
-                    <p>Vamos a dividir la carrera en tres partes: <em>Paciencia</em> (0-15 km), <em>Concentración</em> (15-30 km) y <em>Corazón</em> (30-42.2 km). Usaremos frases de motivación muy simples para mantener la mente ocupada y positiva.</p>
-                </div>
-            </div>
-
-            <div class="callout">
-                <span class="callout-title">Riesgos Principales y Cómo Evitarlos</span>
-                <ul>
-                    <li><strong>El Viento de Chicago:</strong> Puede haber viento en contra en algunas zonas abiertas. <em>Solución: Corre detrás de un grupo de personas para que te cubran.</em></li>
-                    <li><strong>El GPS se vuelve loco:</strong> Los edificios altos del inicio harán que tu reloj marque mal el ritmo. <em>Solución: Guíate por cómo te sientes (no debes ir ahogado) y confía en los letreros de cada kilómetro.</em></li>
-                    <li><strong>La subida final:</strong> La única subida real está a solo 400 metros de la meta (Roosevelt Road). <em>Solución: Da pasos cortos, mueve los brazos con fuerza y piensa en la medalla.</em></li>
-                </ul>
-            </div>
-
         </div>
-        <footer class="page-footer">
-            <span>Guía de Carrera | Maratón de Chicago</span>
-            <span>Página 1</span>
-        </footer>
-    </section>
+    </header>
 
-    <!-- ========================================================
-         PAGE 2: ROUTE ANALYSIS & PACING MATRIX
-         ======================================================== -->
-    <section class="page">
-        <div class="page-content">
-            <h2 class="section-title">3. Análisis del Recorrido</h2>
+    <main class="max-w-4xl mx-auto px-4 mt-6 md:mt-8 space-y-8">
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-lg font-bold text-chicago-blue uppercase mb-6 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Panel de Control de Ritmo
+            </h2>
             
-            <p>El Maratón de Chicago es famoso por ser muy rápido y plano. Sin embargo, al no tener subidas ni bajadas, usamos siempre los mismos músculos de las piernas, por lo que es vital no empezar muy rápido para no cansarlos antes de tiempo.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between items-end mb-2">
+                            <label class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Ajusta tu Ritmo Base</label>
+                            <span id="display-pace" class="text-3xl font-black text-chicago-blue">5:30</span>
+                        </div>
+                        <input type="range" id="pace-slider" min="320" max="345" value="330" step="1">
+                        <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                            <span>Más rápido (5:20)</span>
+                            <span>Más conservador (5:45)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-xl p-6 border-l-4 border-chicago-red text-center md:text-left flex flex-col justify-center h-full">
+                    <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Tiempo Total Estimado</p>
+                    <p id="display-total-time" class="text-4xl md:text-5xl font-black text-chicago-blue tracking-tight">3h 52m 15s</p>
+                    <p class="text-xs text-slate-500 mt-3 bg-slate-100 p-2 rounded inline-block">Cálculo dinámico compensando inicio conservador (+10s) y cierre (+5s).</p>
+                </div>
+            </div>
+        </section>
 
-            <div class="chart-container">
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 10pt; color: var(--chicago-blue);">Perfil Altimétrico Esquemático y Puntos Críticos</div>
-                <!-- SVG Diagram representing the flat course, key neighborhoods and the final bump -->
-                <svg width="100%" height="120" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="800" height="120" fill="transparent"></rect>
-                    <!-- Axes -->
-                    <line x1="20" y1="90" x2="780" y2="90" stroke="#cbd5e1" stroke-width="2"></line>
-                    <!-- Route Elevation (mostly flat) -->
-                    <path d="M 20 85 L 150 85 L 200 82 L 350 85 L 500 87 L 650 85 L 720 85 L 750 65 L 770 85 L 780 85" fill="none" stroke="var(--chicago-blue)" stroke-width="3"></path>
-                    
-                    <!-- Mile markers / points -->
-                    <circle cx="20" cy="85" r="4" fill="var(--chicago-red)"></circle>
-                    <text x="20" y="105" font-size="10" font-family="Arial" text-anchor="middle">Salida</text>
-                    
-                    <circle cx="150" cy="85" r="4" fill="#64748b"></circle>
-                    <text x="150" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 10 (Loop)</text>
-
-                    <circle cx="350" cy="85" r="4" fill="#64748b"></circle>
-                    <text x="350" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 21 (Medio)</text>
-
-                    <circle cx="580" cy="86" r="4" fill="var(--chicago-red)"></circle>
-                    <text x="580" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 32 (Pilsen)</text>
-                    <text x="580" y="55" font-size="10" font-weight="bold" fill="var(--chicago-red)" text-anchor="middle">"El Muro"</text>
-
-                    <circle cx="750" cy="65" r="5" fill="var(--chicago-red)"></circle>
-                    <text x="750" y="45" font-size="10" font-family="Arial" text-anchor="middle">Mt. Roosevelt</text>
-
-                    <circle cx="780" cy="85" r="4" fill="var(--chicago-blue)"></circle>
-                    <text x="780" y="105" font-size="10" font-family="Arial" text-anchor="middle">Meta</text>
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-chicago-blue uppercase mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                Puntos Clave y Tiempos de Paso
+            </h2>
+            <p class="text-sm text-slate-500 mb-8">Toca los puntos en el mapa para ver a qué hora pasarás por ahí según tu ritmo.</p>
+            
+            <div class="relative w-full h-32 md:h-40 bg-slate-50 rounded-xl border border-slate-100">
+                <svg class="w-full h-full" viewBox="0 0 1000 150" preserveAspectRatio="none">
+                    <!-- Línea base -->
+                    <line x1="0" y1="120" x2="1000" y2="120" stroke="#e2e8f0" stroke-width="2"></line>
+                    <!-- Perfil de ruta -->
+                    <path d="M 20 110 L 200 110 L 400 108 L 600 110 L 800 110 L 920 110 L 950 80 L 980 110 L 1000 110" fill="none" stroke="#0033A0" stroke-width="4"></path>
                 </svg>
-            </div>
 
-            <p><strong>Puntos donde agarrar ritmo:</strong> Km 12 al 25. Las calles son anchas, hay mucha gente animando y el piso es perfecto. Es el momento de sentirte cómodo a 5:25 - 5:30 min/km sin forzar.</p>
-            <p><strong>Puntos donde conservar energía:</strong> Km 0 al 5 (no gastes energía esquivando gente). Km 28 al 32 (Chinatown a Pilsen) donde el cansancio empieza a asomarse. Aquí ganamos la carrera manteniendo la calma.</p>
-
-            <h2 class="section-title">4. Estrategia de Ritmo (Pacing)</h2>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Segmento (Km)</th>
-                        <th>Ritmo Obj. (min/km)</th>
-                        <th>Tiempo Acumulado</th>
-                        <th>Consejos para este tramo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>0 - 5</td>
-                        <td>5:40</td>
-                        <td>0:28:20</td>
-                        <td>Salida muy conservadora. Reloj sin GPS confiable. <span class="td-alert">Paciencia, no esquives gente.</span></td>
-                    </tr>
-                    <tr>
-                        <td>5 - 10</td>
-                        <td>5:35</td>
-                        <td>0:56:15</td>
-                        <td>La ruta se abre. Vamos soltando las piernas poco a poco.</td>
-                    </tr>
-                    <tr>
-                        <td>10 - 15</td>
-                        <td>5:30</td>
-                        <td>1:23:45</td>
-                        <td>Encontramos nuestro ritmo cómodo de viaje. Respira tranquilo.</td>
-                    </tr>
-                    <tr>
-                        <td>15 - 21.1</td>
-                        <td>5:25</td>
-                        <td>1:56:45</td>
-                        <td>Ritmo ideal. Llegamos a la mitad frescos y con energía de sobra.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-highlight">21.1 - 30</td>
-                        <td class="td-highlight">5:25 - 5:30</td>
-                        <td class="td-highlight">2:45:00</td>
-                        <td>Mantén el paso. Si te sientes muy bien, guarda esa energía, la vas a necesitar.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-alert">30 - 35</td>
-                        <td class="td-alert">5:30</td>
-                        <td class="td-alert">3:12:30</td>
-                        <td>Empieza el cansancio real. Mantén la espalda recta y usa los brazos.</td>
-                    </tr>
-                    <tr>
-                        <td>35 - 40</td>
-                        <td>5:35</td>
-                        <td>3:40:25</td>
-                        <td>Corazón y mente. Ya no mires el reloj, solo concéntrate en avanzar.</td>
-                    </tr>
-                    <tr>
-                        <td>40 - 42.2</td>
-                        <td>5:30 - ¡A tope!</td>
-                        <td>3:52:30</td>
-                        <td>¡La meta está ahí! Sube el puente con fuerza y disfruta tu llegada.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <footer class="page-footer">
-            <span>Guía de Carrera | Maratón de Chicago</span>
-            <span>Página 2</span>
-        </footer>
-    </section>
-
-    <!-- ========================================================
-         PAGE 3: NUTRITION AND HYDRATION PLAN
-         ======================================================== -->
-    <section class="page">
-        <div class="page-content">
-            <h2 class="section-title">5. Plan de Nutrición</h2>
-            
-            <p><strong>La regla de oro:</strong> Tal como lo hemos practicado, tomaremos <strong>un gel cada 6 kilómetros</strong>. El cuerpo ya está acostumbrado a esta rutina, así no saturamos el estómago y mantenemos el "combustible" siempre lleno. Usa sorbos pequeños de agua al tomar tu gel.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Momento</th>
-                        <th>Kilómetro</th>
-                        <th>¿Qué tomar?</th>
-                        <th>Por qué lo tomamos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Día Anterior</td>
-                        <td>-</td>
-                        <td>Comida rica en carbohidratos</td>
-                        <td>Para llenar el tanque de energía del cuerpo.</td>
-                    </tr>
-                    <tr>
-                        <td>Desayuno (-3h)</td>
-                        <td>-</td>
-                        <td>Avena, pan tostado, plátano</td>
-                        <td>Energía para arrancar la mañana.</td>
-                    </tr>
-                    <tr>
-                        <td>Pre-Salida (-15m)</td>
-                        <td>0</td>
-                        <td>1 Gel Normal</td>
-                        <td>Un empujón justo antes de que suene el disparo.</td>
-                    </tr>
-                    <tr>
-                        <td>Carrera</td>
-                        <td>Km 6</td>
-                        <td>1 Gel Normal</td>
-                        <td>Primera recarga, mantén el ritmo suave.</td>
-                    </tr>
-                    <tr>
-                        <td>Carrera</td>
-                        <td>Km 12</td>
-                        <td>1 Gel Normal</td>
-                        <td>Para seguir sintiéndonos fuertes.</td>
-                    </tr>
-                    <tr>
-                        <td>Carrera</td>
-                        <td>Km 18</td>
-                        <td>1 Gel Normal</td>
-                        <td>Energía lista antes de llegar a la mitad de la carrera.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-highlight">Carrera</td>
-                        <td class="td-highlight">Km 24</td>
-                        <td class="td-highlight">1 Gel con Cafeína</td>
-                        <td>Un toque de alerta para despertar el cuerpo.</td>
-                    </tr>
-                    <tr>
-                        <td>Carrera</td>
-                        <td>Km 30</td>
-                        <td>1 Gel Normal</td>
-                        <td>Energía clave para cruzar el "muro" con fuerza.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-alert">Carrera</td>
-                        <td class="td-alert">Km 36</td>
-                        <td class="td-alert"><span class="td-highlight">1 Gel con Cafeína</span></td>
-                        <td>¡Último empujón! Te dará la chispa final hasta la meta.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2 class="section-title">6. Plan de Hidratación</h2>
-            
-            <p>El maratón cuenta con 20 Aid Stations oficiales. <strong>Regla de oro: No te saltes estaciones en la primera mitad, incluso si no tienes sed.</strong></p>
-
-            <div class="callout">
-                <span class="callout-title">Ubicación de las Aid Stations (¡Ojo en estos Kilómetros!)</span>
-                <p style="margin-bottom: 8px;">Las estaciones de hidratación están aproximadamente en los siguientes kilómetros. Prepárate visualmente cuando te acerques a ellos:</p>
-                <p><strong>Km 2.5, Km 5, Km 8, Km 11.5, Km 13.5, Km 16, Km 19, Km 21, Km 23, Km 25.5, Km 28, Km 30.5, Km 32.5, Km 34.5, Km 37.5, Km 39, Km 41.</strong></p>
-            </div>
-
-            <div class="callout">
-                <span class="callout-title">Ajuste por Clima (Día de Carrera):</span>
-                <ul style="margin-bottom: 0;">
-                    <li><strong>Clima Fresco (5°C - 10°C):</strong> 1 vaso de agua cada 5km. Alternar con electrolitos cada 10km.</li>
-                    <li><strong>Clima Templado (11°C - 16°C):</strong> 1 vaso de agua cada estación alterna. Electrolitos cada 8km.</li>
-                    <li><strong>Clima Cálido (&gt;17°C o Alta Humedad):</strong> Beber en TODAS las estaciones. Alternar Agua / Gatorade. Ingerir 1 pastilla de sal (SaltStick) cada hora (Km 10, 20, 30).</li>
-                </ul>
-            </div>
-
-        </div>
-        <footer class="page-footer">
-            <span>Guía de Carrera | Maratón de Chicago</span>
-            <span>Página 3</span>
-        </footer>
-    </section>
-
-    <!-- ========================================================
-         PAGE 4: COMPLETE RACE MATRIX
-         ======================================================== -->
-    <section class="page">
-        <div class="page-content">
-            <h2 class="section-title">7. Matriz Completa de Carrera</h2>
-            
-            <p>Aquí tienes el resumen paso a paso de tu carrera: a qué ritmo ir, cuándo comer y qué pensar.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Km</th>
-                        <th>Tiempo Aprox.</th>
-                        <th>Ritmo</th>
-                        <th>Acción (Geles y Agua)</th>
-                        <th>¿Qué pensar?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>0</strong></td>
-                        <td>0:00</td>
-                        <td>-</td>
-                        <td>Gel (-15 min)</td>
-                        <td><strong>Calma.</strong> Disfruta el ambiente, no dejes que la emoción te haga correr rápido.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>5</strong></td>
-                        <td>0:28</td>
-                        <td>5:40</td>
-                        <td>Beber 1 vaso de agua.</td>
-                        <td><strong>Paciencia.</strong> El reloj puede fallar, guíate por sentirte muy relajado.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>6</strong></td>
-                        <td>0:34</td>
-                        <td>5:35</td>
-                        <td><strong>Tomar Gel Normal.</strong></td>
-                        <td>Seguimos calentando motores.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>12</strong></td>
-                        <td>1:07</td>
-                        <td>5:30</td>
-                        <td><strong>Tomar Gel Normal.</strong> Agua.</td>
-                        <td><strong>Ritmo.</strong> Disfruta la ciudad, ya encontraste tu paso cómodo.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>18</strong></td>
-                        <td>1:40</td>
-                        <td>5:25</td>
-                        <td><strong>Tomar Gel Normal.</strong> Agua.</td>
-                        <td><strong>Fluidez.</strong> Te sientes genial. No aceleres de más.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>21.1</strong></td>
-                        <td>1:56</td>
-                        <td>5:25</td>
-                        <td>Agua + Electrolitos.</td>
-                        <td><strong>Chequeo.</strong> Estás a la mitad. "Me siento como si recién hubiera salido".</td>
-                    </tr>
-                    <tr>
-                        <td class="td-highlight"><strong>24</strong></td>
-                        <td class="td-highlight">2:12</td>
-                        <td class="td-highlight">5:25</td>
-                        <td><strong>Tomar Gel con Cafeína.</strong></td>
-                        <td><strong>Enfoque.</strong> La carrera de verdad se acerca.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-alert"><strong>30</strong></td>
-                        <td class="td-alert">2:45</td>
-                        <td class="td-alert">5:30</td>
-                        <td><strong>Tomar Gel Normal.</strong></td>
-                        <td><strong>Fuerza.</strong> Aquí empieza el reto. Piensa en tu entrenamiento.</td>
-                    </tr>
-                    <tr>
-                        <td class="td-alert"><strong>36</strong></td>
-                        <td class="td-alert">3:18</td>
-                        <td class="td-alert">5:35</td>
-                        <td><strong>Gel con Cafeína.</strong> Beber agua.</td>
-                        <td><strong>Corazón.</strong> Va a doler un poco, acéptalo y sigue moviendo los brazos.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>40</strong></td>
-                        <td>3:40</td>
-                        <td>5:35</td>
-                        <td>Beber agua.</td>
-                        <td><strong>Cierre.</strong> La multitud regresa. Quedan solo 2 km, ¡tú puedes!</td>
-                    </tr>
-                    <tr>
-                        <td><strong>42.2</strong></td>
-                        <td>3:52</td>
-                        <td>A tope</td>
-                        <td>¡Línea de Meta!</td>
-                        <td><strong>¡Lo lograste!</strong> Levanta la cabeza y los brazos para la foto.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="callout" style="margin-top: 20px;">
-                <span class="callout-title">Protocolo Maurten Fuel Depots</span>
-                <p style="margin-bottom: 0;">Chicago Marathon cuenta con zonas oficiales de geles Maurten en el recorrido (aprox. Km 21 y Km 30). <strong>Recomendación:</strong> Lleva tu propia nutrición con la que has entrenado. Solo usa los Maurten del recorrido como respaldo de emergencia si pierdes un gel.</p>
-            </div>
-
-        </div>
-        <footer class="page-footer">
-            <span>Guía de Carrera | Maratón de Chicago</span>
-            <span>Página 4</span>
-        </footer>
-    </section>
-
-    <!-- ========================================================
-         PAGE 5: MENTAL PLAN & CHECKLISTS
-         ======================================================== -->
-    <section class="page">
-        <div class="page-content">
-            <h2 class="section-title">8. Plan Mental (Actitud Positiva)</h2>
-            
-            <p>El cuerpo te lleva hasta el kilómetro 30; tu mente te lleva hasta la meta. Usa estas ideas simples durante la ruta:</p>
-
-            <ul style="margin-bottom: 20px;">
-                <li><strong>Km 0 - 10 (El Turista):</strong> Disfruta la ciudad, asimila lo grande que es el evento. Mantén la emoción controlada. <em>Piensa: "Suave, ligero, con calma."</em></li>
-                <li><strong>Km 10 - 21 (El Reloj):</strong> Modo automático. Concéntrate en tu cuerpo: hombros relajados, respira tranquilo. <em>Piensa: "Soy un reloj, paso a paso."</em></li>
-                <li><strong>Km 21 - 30 (El Trabajador):</strong> El esfuerzo empieza a sentirse. Acepta que el trabajo real inicia aquí. <em>Piensa: "Me siento fuerte y estable."</em></li>
-                <li><strong>Km 30 - 35 (El Guerrero):</strong> Tu mente intentará convencerte de caminar o parar. Engáñala poniéndote metas cortas (el siguiente árbol, la siguiente estación de agua). <em>Piensa: "Un kilómetro a la vez, yo controlo esto."</em></li>
-                <li><strong>Km 35 - Meta (Puro Corazón):</strong> Solo importan los brazos; si los mueves con energía, las piernas te van a seguir. <em>Piensa: "No me rindo, ya casi llego."</em></li>
-            </ul>
-
-            <div class="grid-2">
-                <div>
-                    <h2 class="section-title" style="font-size: 14pt;">9. Lista de Compras</h2>
-                    <ul style="font-size: 9.5pt;">
-                        <li><strong>Geles Normales:</strong> 5 unidades (4 para la carrera, 1 extra de emergencia).</li>
-                        <li><strong>Geles con Cafeína:</strong> 3 unidades (2 para la carrera, 1 extra de emergencia).</li>
-                        <li><strong>Hidratación:</strong> Pastillas de sal (ej. SaltStick) en una bolsita ziploc.</li>
-                        <li><strong>Equipamiento:</strong>
-                            <ul>
-                                <li>Cinturón para llevar los geles.</li>
-                                <li>Gorra (muy útil para sol o viento).</li>
-                                <li>Vaselina (ponte bastante para evitar roces).</li>
-                                <li>Seguros (imperdibles) para el número.</li>
-                                <li>Bloqueador solar.</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h2 class="section-title" style="font-size: 14pt;">10. Checklist Final</h2>
-                    <ul style="font-size: 9.5pt;">
-                        <li><strong>7 días antes:</strong> Reducir volumen de kilómetros (Tapering). Priorizar sueño (8-9 horas).</li>
-                        <li><strong>3 días antes:</strong> Iniciar carga de carbohidratos. Cortar fibra excesiva y carnes rojas.</li>
-                        <li><strong>Día anterior:</strong> Recoger dorsal en la Expo. Caminar lo mínimo posible. Cena alta en CH a las 18:00h (Pasta blanca, arroz). Preparar el kit de carrera.</li>
-                        <li><strong>Mañana de carrera:</strong> Despertar 3h antes. Desayunar lo probado. Aplicar vaselina en axilas, muslos, pezones y pies.</li>
-                        <li><strong>Llegada a la salida:</strong> Entrar a tu corral (Corral asignado) 45 minutos antes. Llevar ropa vieja para abrigarte y descartarla antes del inicio.</li>
-                    </ul>
+                <!-- Puntos Interactivos HTML -->
+                <div id="map-markers" class="absolute inset-0 w-full h-full pointer-events-none">
+                    <!-- Generados por JS -->
                 </div>
             </div>
+        </section>
 
-            <div class="callout" style="text-align: center; margin-top: 10px; background: var(--slate-100); border-left: none; border-top: 4px solid var(--chicago-blue);">
-                <p style="font-size: 12pt; font-style: italic; font-weight: bold; color: var(--chicago-blue); margin-bottom: 0;">
-                    "El maratón es una prueba de paciencia en la primera mitad, y de carácter en la segunda. Tienes el entrenamiento, tienes el plan. Ejecuta."
-                </p>
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 overflow-hidden">
+            <h2 class="text-lg font-bold text-chicago-blue uppercase mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Estrategia por Segmentos
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-chicago-blue text-white uppercase text-xs">
+                        <tr>
+                            <th class="px-4 py-3 rounded-tl-lg">Tramo (Km)</th>
+                            <th class="px-4 py-3 text-center">Ritmo</th>
+                            <th class="px-4 py-3 text-center">Tiempo de Paso</th>
+                            <th class="px-4 py-3 rounded-tr-lg min-w-[200px]">Enfoque Mental</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pace-table-body" class="divide-y divide-slate-100">
+                        <!-- Generado por JS -->
+                    </tbody>
+                </table>
             </div>
+        </section>
 
-        </div>
-        <footer class="page-footer">
-            <span>Guía de Carrera | Maratón de Chicago</span>
-            <span>Página 5</span>
-        </footer>
-    </section>
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 overflow-hidden">
+            <h2 class="text-lg font-bold text-chicago-blue uppercase mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                Checklist de Nutrición en Vivo
+            </h2>
+            <p class="text-sm text-slate-500 mb-6">Marca las casillas conforme tomes tus geles durante la carrera.</p>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 text-slate-600 uppercase text-xs font-semibold">
+                        <tr>
+                            <th class="px-4 py-3 text-center w-12">Hecho</th>
+                            <th class="px-4 py-3">Km</th>
+                            <th class="px-4 py-3">Reloj (Aprox)</th>
+                            <th class="px-4 py-3">Qué Tomar</th>
+                            <th class="px-4 py-3 min-w-[150px]">Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nutrition-table-body" class="divide-y divide-slate-100">
+                        <!-- Generado por JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="reset-checklist" class="text-xs font-semibold text-chicago-red bg-red-50 px-3 py-1 rounded hover:bg-red-100 transition">Reiniciar Checklist</button>
+            </div>
+        </section>
 
-</div>
+    </main>
 
-</body></html>
+    <script>
+        // 1. Estado y Datos Base
+        const paceSlider = document.getElementById('pace-slider');
+        const displayPace = document.getElementById('display-pace');
+        const displayTotalTime = document.getElementById('display-total-time');
+        const paceTableBody = document.getElementById('pace-table-body');
+        const nutritionTableBody = document.getElementById('nutrition-table-body');
+        const mapMarkersContainer = document.getElementById('map-markers');
+        const resetBtn = document.getElementById('reset-checklist');
+
+        // Segmentos de la carrera (Modificadores para ser conservadores)
+        const segments = [
+            { kmStart: 0, kmEnd: 5, dist: 5, offset: 10, notes: "Salida muy conservadora. No esquives gente.", highlight: false },
+            { kmStart: 5, kmEnd: 10, dist: 5, offset: 5, notes: "La ruta se abre. Vamos soltando piernas.", highlight: false },
+            { kmStart: 10, kmEnd: 15, dist: 5, offset: 0, notes: "Ritmo crucero. Respira tranquilo.", highlight: false },
+            { kmStart: 15, kmEnd: 21.1, dist: 6.1, offset: 0, notes: "Mitad de carrera. Mantente fluido.", highlight: false },
+            { kmStart: 21.1, kmEnd: 30, dist: 8.9, offset: 0, notes: "Empieza la concentración. Guarda energía.", highlight: true },
+            { kmStart: 30, kmEnd: 35, dist: 5, offset: 0, notes: "Llegó la hora de la verdad. Usa los brazos.", highlight: true },
+            { kmStart: 35, kmEnd: 40, dist: 5, offset: 5, notes: "Puro corazón. Ignora el reloj.", highlight: true },
+            { kmStart: 40, kmEnd: 42.2, dist: 2.2, offset: 5, notes: "Roosevelt Road. ¡Acelera y cruza la meta!", highlight: true }
+        ];
+
+        // Puntos de Nutrición (Cada 6km)
+        const nutritionPlan = [
+            { km: 0, type: 'Gel Normal', notes: "15 min antes del disparo.", style: "font-medium text-slate-800" },
+            { km: 6, type: 'Gel Normal', notes: "Primera recarga de tanque.", style: "font-medium text-slate-800" },
+            { km: 12, type: 'Gel Normal', notes: "Agua. Disfruta la ciudad.", style: "font-medium text-slate-800" },
+            { km: 18, type: 'Gel Normal', notes: "Agua. Preparando la mitad.", style: "font-medium text-slate-800" },
+            { km: 24, type: 'Gel CAFEÍNA', notes: "Toque de alerta.", style: "font-bold text-chicago-red bg-red-50 px-2 py-1 rounded" },
+            { km: 30, type: 'Gel Normal', notes: "Fuerza para el muro.", style: "font-medium text-slate-800" },
+            { km: 36, type: 'Gel CAFEÍNA', notes: "Última chispa. ¡Va a doler!", style: "font-bold text-chicago-red bg-red-50 px-2 py-1 rounded" }
+        ];
+
+        // Puntos para el Mapa
+        const mapPoints = [
+            { km: 10, label: "Loop", posX: 23.6 },
+            { km: 21.1, label: "Medio Maratón", posX: 50.0 },
+            { km: 32, label: "Pilsen (Muro)", posX: 75.8 },
+            { km: 40, label: "Mt. Roosevelt", posX: 94.7 }
+        ];
+
+        // 2. Funciones Utilitarias
+        function formatPace(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.round(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function formatTime(totalSeconds) {
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = Math.round(totalSeconds % 60);
+            return `${h}h ${m.toString().padStart(2, '0')}m ${s.toString().padStart(2, '0')}s`;
+        }
+
+        function getTimeAtKm(targetKm, basePace) {
+            let accumulatedTime = 0;
+            let currentKm = 0;
+            for (let seg of segments) {
+                let segPace = basePace + seg.offset;
+                if (targetKm <= seg.kmEnd) {
+                    let distInSeg = targetKm - currentKm;
+                    accumulatedTime += distInSeg * segPace;
+                    break;
+                } else {
+                    accumulatedTime += seg.dist * segPace;
+                    currentKm = seg.kmEnd;
+                }
+            }
+            return accumulatedTime;
+        }
+
+        // 3. Funciones de Renderizado
+        function updateDashboard() {
+            const basePace = parseInt(paceSlider.value, 10);
+            displayPace.textContent = formatPace(basePace);
+
+            // Calcular tiempos totales y parciales
+            let totalTime = 0;
+            let paceRowsHTML = '';
+            
+            segments.forEach(seg => {
+                const segPace = basePace + seg.offset;
+                const segTime = seg.dist * segPace;
+                totalTime += segTime;
+                
+                const trClass = seg.highlight ? 'bg-blue-50/50 font-medium' : '';
+                const timeStr = formatTime(totalTime);
+                
+                paceRowsHTML += `
+                    <tr class="${trClass} hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 font-semibold text-slate-700">${seg.kmStart} a ${seg.kmEnd}</td>
+                        <td class="px-4 py-3 text-center text-chicago-blue font-bold">${formatPace(segPace)}</td>
+                        <td class="px-4 py-3 text-center text-slate-600">${timeStr}</td>
+                        <td class="px-4 py-3 text-slate-500 italic">${seg.notes}</td>
+                    </tr>
+                `;
+            });
+
+            displayTotalTime.textContent = formatTime(totalTime);
+            paceTableBody.innerHTML = paceRowsHTML;
+
+            // Actualizar Tabla de Nutrición
+            const savedChecks = JSON.parse(localStorage.getItem('chicagoChecklist')) || [];
+            let nutritionRowsHTML = '';
+            
+            nutritionPlan.forEach(nut => {
+                const passTime = nut.km === 0 ? '-0h 15m 00s' : formatTime(getTimeAtKm(nut.km, basePace));
+                const isChecked = savedChecks.includes(nut.km);
+                const rowClass = isChecked ? 'checked-row' : '';
+                const checkAttr = isChecked ? 'checked' : '';
+                
+                nutritionRowsHTML += `
+                    <tr class="check-row ${rowClass} hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="px-4 py-4 text-center pointer-events-auto">
+                            <input type="checkbox" class="w-5 h-5 text-chicago-red rounded border-slate-300 cursor-pointer nut-check focus:ring-chicago-red" data-km="${nut.km}" ${checkAttr}>
+                        </td>
+                        <td class="px-4 py-4 font-bold text-slate-700 text-lg">${nut.km}</td>
+                        <td class="px-4 py-4 text-slate-500 font-mono text-sm">${passTime}</td>
+                        <td class="px-4 py-4"><span class="${nut.style} no-strike inline-block">${nut.type}</span></td>
+                        <td class="px-4 py-4 text-slate-500 text-sm">${nut.notes}</td>
+                    </tr>
+                `;
+            });
+            nutritionTableBody.innerHTML = nutritionRowsHTML;
+            attachCheckListeners();
+
+            // Actualizar Mapa
+            let mapHTML = '';
+            mapPoints.forEach(pt => {
+                const passTime = formatTime(getTimeAtKm(pt.km, basePace));
+                // Responsive positions trick: using inline CSS left
+                mapHTML += `
+                    <div class="absolute group pointer-events-auto" style="left: ${pt.posX}%; top: 75px; transform: translateX(-50%);">
+                        <div class="w-4 h-4 bg-chicago-red rounded-full border-2 border-white shadow-md marker-group"></div>
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs rounded-md py-1 px-2 whitespace-nowrap shadow-lg pointer-events-none z-10">
+                            <div class="font-bold text-center border-b border-slate-600 pb-1 mb-1">${pt.label} (Km ${pt.km})</div>
+                            <div class="text-center text-blue-200">Reloj: ${passTime}</div>
+                            <!-- Flecha -->
+                            <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            mapMarkersContainer.innerHTML = mapHTML;
+        }
+
+        // 4. Lógica de Interacciones
+        function attachCheckListeners() {
+            const checkboxes = document.querySelectorAll('.nut-check');
+            checkboxes.forEach(chk => {
+                chk.addEventListener('change', (e) => {
+                    const tr = e.target.closest('tr');
+                    if (e.target.checked) {
+                        tr.classList.add('checked-row');
+                    } else {
+                        tr.classList.remove('checked-row');
+                    }
+                    saveChecklist();
+                });
+            });
+        }
+
+        function saveChecklist() {
+            const checkboxes = document.querySelectorAll('.nut-check');
+            const checkedKms = [];
+            checkboxes.forEach(chk => {
+                if (chk.checked) checkedKms.push(parseInt(chk.dataset.km, 10));
+            });
+            localStorage.setItem('chicagoChecklist', JSON.stringify(checkedKms));
+        }
+
+        resetBtn.addEventListener('click', () => {
+            localStorage.removeItem('chicagoChecklist');
+            updateDashboard();
+        });
+
+        paceSlider.addEventListener('input', updateDashboard);
+
+        // Inicializar vista
+        updateDashboard();
+
+    </script>
+</body>
+</html>
