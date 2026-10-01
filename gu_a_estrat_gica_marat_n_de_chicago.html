@@ -1,0 +1,655 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <title>Plan Estratégico - Maratón de Chicago</title>
+    <style>
+        /* ========================================================
+           REQUIRED BOILERPLATE CSS (Do not modify base metrics)
+           ======================================================== */
+        @page { margin: 0; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        html { background-color: #ffffff; }
+        @media (prefers-color-scheme: dark) {
+            html { background-color: #1f1f1f; }
+        }
+        body { 
+            padding: 24px 0;
+            margin: 0 auto;
+            max-width: 900px !important;
+            border: none !important;
+            background: transparent !important; 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1a1a1a;
+        }
+        .page {
+            height: 297mm;
+            margin: 0 auto 12px auto;
+            padding: 18mm 18mm 12mm 18mm;
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        @media screen and (max-width: 600px) {
+            body { padding: 16px 0; }
+            .page {
+                margin: 0 auto 8px auto;
+                border: none;
+                padding: 12px 20px;
+            }
+        }
+        .page-content {
+            flex: 1 1 0;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .page-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+            padding-top: 4mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5pt;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media print {
+            *, *::before, *::after {
+                box-shadow: none !important;
+                text-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            body { padding: 0; background: none; }
+            .page {
+                margin: 0;
+                border: none;
+                height: 297mm;
+                break-after: page;
+                page-break-after: always;
+            }
+            .page:last-child { break-after: auto; page-break-after: auto; }
+        }
+        [contenteditable]:focus { outline: none; }
+
+        /* ========================================================
+           CUSTOM DOCUMENT STYLING (Premium Editorial)
+           Theme: Chicago Marathon (Navy Blue, Crimson Red, Slate)
+           ======================================================== */
+        :root {
+            --chicago-blue: #0033A0;
+            --chicago-red: #D31145;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
+        h1, h2, h3, h4 { margin: 0 0 10px 0; font-family: 'Arial', sans-serif; }
+        p { margin: 0 0 12px 0; font-size: 10.5pt; line-height: 1.5; color: #333; }
+        ul, ol { margin: 0 0 12px 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.5; color: #333; }
+        li { margin-bottom: 4px; }
+
+        /* Masthead / Cover Elements */
+        .masthead {
+            background-color: var(--chicago-blue);
+            color: #ffffff;
+            padding: 24px;
+            border-bottom: 6px solid var(--chicago-red);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .ronclub-logo {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            height: 35px;
+            background: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .masthead-title { font-size: 24pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .masthead-subtitle { font-size: 14pt; font-weight: 400; color: #e0e7ff; margin-top: 8px; }
+        
+        /* Typography */
+        .section-title {
+            font-size: 16pt;
+            font-weight: 700;
+            color: var(--chicago-blue);
+            border-bottom: 2px solid var(--slate-200);
+            padding-bottom: 6px;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .accent-text { color: var(--chicago-red); font-weight: bold; }
+
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        
+        /* Cards & Callouts */
+        .metric-card {
+            background: var(--slate-100);
+            border-left: 4px solid var(--chicago-blue);
+            padding: 14px;
+        }
+        .metric-label { font-size: 9pt; text-transform: uppercase; color: var(--slate-700); letter-spacing: 0.5px; }
+        .metric-value { font-size: 18pt; font-weight: 800; color: var(--chicago-blue); margin-top: 4px; }
+        
+        .callout {
+            background: #fff0f2;
+            border: 1px solid #ffd6de;
+            border-left: 4px solid var(--chicago-red);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 10pt;
+        }
+        .callout-title { font-weight: bold; color: var(--chicago-red); margin-bottom: 4px; display: block; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 9.5pt;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--slate-200);
+        }
+        th {
+            background-color: var(--chicago-blue);
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 8.5pt;
+            letter-spacing: 0.5px;
+        }
+        tr:nth-child(even) td { background-color: var(--slate-100); }
+        .td-highlight { font-weight: bold; color: var(--chicago-blue); }
+        .td-alert { color: var(--chicago-red); font-weight: bold; }
+
+        /* Visual Containers */
+        .chart-container {
+            width: 100%;
+            background: var(--slate-100);
+            border: 1px solid var(--slate-200);
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        /* Utilities */
+        .text-center { text-align: center; }
+        .mt-4 { margin-top: 16px; }
+        .mb-2 { margin-bottom: 8px; }
+        .w-full { width: 100%; }
+        
+    </style>
+</head>
+<body>
+<div contenteditable="true">
+
+    <!-- ========================================================
+         PAGE 1: COVER & EXECUTIVE SUMMARY
+         ======================================================== -->
+    <section class="page">
+        <div class="page-content">
+            
+            <div class="masthead">
+                <img src="Logo principal_negro@4x - copia.png" alt="RonClub Logo" class="ronclub-logo">
+                <div class="masthead-title">Guía Oficial de Carrera</div>
+                <div style="font-size: 16pt; font-weight: 600; margin-top: 4px;">MARATÓN DE CHICAGO</div>
+                <div class="masthead-subtitle">Plan Estratégico Personalizado para Kevin Chávez</div>
+            </div>
+
+            <div class="grid-3">
+                <div class="metric-card">
+                    <div class="metric-label">Tiempo Objetivo</div>
+                    <div class="metric-value">3h 52m</div>
+                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">(Rango: 3:50:00 - 3:55:00)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Ritmo Promedio</div>
+                    <div class="metric-value">5:30 <span style="font-size: 12pt;">min/km</span></div>
+                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">(Rango: 5:25 - 5:35)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Fecha del Evento</div>
+                    <div class="metric-value" style="font-size: 16pt;">11 Octubre</div>
+                    <div style="font-size: 9pt; color: #666; margin-top: 4px;">Grant Park, Chicago</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">2. Resumen Ejecutivo</h2>
+            
+            <p><strong>Objetivo de Carrera:</strong> Completar el Maratón de Chicago en un tiempo de 3 horas y 52 minutos, ejecutando una carrera muy inteligente: empezaremos con un trote suave y conservador para guardar energía, llegando al kilómetro 30 con piernas y mente frescas para evitar el temido "muro".</p>
+            
+            <p><strong>Estrategia General (Ritmo):</strong> Chicago es un circuito muy plano, lo que a veces nos engaña y nos hace salir muy rápido. La clave de este plan es la paciencia al inicio. Los primeros 5 km se correrán de forma muy conservadora (5:40 min/km) para calentar el cuerpo. Entre el km 10 y 30 entraremos en nuestro ritmo ideal (5:25 - 5:30), cuidando los músculos para el final.</p>
+            
+            <div class="grid-2">
+                <div>
+                    <h3 style="font-size: 11pt; color: var(--chicago-blue);">Estrategia Nutricional</h3>
+                    <p>Para no saturar tu estómago y usar lo que ya hemos practicado, tomaremos <strong>un gel exactamente cada 6 kilómetros</strong>. Es fácil de recordar y mantendrá tu energía al tope. Usaremos geles con cafeína en la segunda mitad (km 24 y km 36) para darte un empujón extra cuando empiece el cansancio.</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 11pt; color: var(--chicago-blue);">Estrategia Mental</h3>
+                    <p>Vamos a dividir la carrera en tres partes: <em>Paciencia</em> (0-15 km), <em>Concentración</em> (15-30 km) y <em>Corazón</em> (30-42.2 km). Usaremos frases de motivación muy simples para mantener la mente ocupada y positiva.</p>
+                </div>
+            </div>
+
+            <div class="callout">
+                <span class="callout-title">Riesgos Principales y Cómo Evitarlos</span>
+                <ul>
+                    <li><strong>El Viento de Chicago:</strong> Puede haber viento en contra en algunas zonas abiertas. <em>Solución: Corre detrás de un grupo de personas para que te cubran.</em></li>
+                    <li><strong>El GPS se vuelve loco:</strong> Los edificios altos del inicio harán que tu reloj marque mal el ritmo. <em>Solución: Guíate por cómo te sientes (no debes ir ahogado) y confía en los letreros de cada kilómetro.</em></li>
+                    <li><strong>La subida final:</strong> La única subida real está a solo 400 metros de la meta (Roosevelt Road). <em>Solución: Da pasos cortos, mueve los brazos con fuerza y piensa en la medalla.</em></li>
+                </ul>
+            </div>
+
+        </div>
+        <footer class="page-footer">
+            <span>Guía de Carrera | Maratón de Chicago</span>
+            <span>Página 1</span>
+        </footer>
+    </section>
+
+    <!-- ========================================================
+         PAGE 2: ROUTE ANALYSIS & PACING MATRIX
+         ======================================================== -->
+    <section class="page">
+        <div class="page-content">
+            <h2 class="section-title">3. Análisis del Recorrido</h2>
+            
+            <p>El Maratón de Chicago es famoso por ser muy rápido y plano. Sin embargo, al no tener subidas ni bajadas, usamos siempre los mismos músculos de las piernas, por lo que es vital no empezar muy rápido para no cansarlos antes de tiempo.</p>
+
+            <div class="chart-container">
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 10pt; color: var(--chicago-blue);">Perfil Altimétrico Esquemático y Puntos Críticos</div>
+                <!-- SVG Diagram representing the flat course, key neighborhoods and the final bump -->
+                <svg width="100%" height="120" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="800" height="120" fill="transparent"></rect>
+                    <!-- Axes -->
+                    <line x1="20" y1="90" x2="780" y2="90" stroke="#cbd5e1" stroke-width="2"></line>
+                    <!-- Route Elevation (mostly flat) -->
+                    <path d="M 20 85 L 150 85 L 200 82 L 350 85 L 500 87 L 650 85 L 720 85 L 750 65 L 770 85 L 780 85" fill="none" stroke="var(--chicago-blue)" stroke-width="3"></path>
+                    
+                    <!-- Mile markers / points -->
+                    <circle cx="20" cy="85" r="4" fill="var(--chicago-red)"></circle>
+                    <text x="20" y="105" font-size="10" font-family="Arial" text-anchor="middle">Salida</text>
+                    
+                    <circle cx="150" cy="85" r="4" fill="#64748b"></circle>
+                    <text x="150" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 10 (Loop)</text>
+
+                    <circle cx="350" cy="85" r="4" fill="#64748b"></circle>
+                    <text x="350" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 21 (Medio)</text>
+
+                    <circle cx="580" cy="86" r="4" fill="var(--chicago-red)"></circle>
+                    <text x="580" y="105" font-size="10" font-family="Arial" text-anchor="middle">Km 32 (Pilsen)</text>
+                    <text x="580" y="55" font-size="10" font-weight="bold" fill="var(--chicago-red)" text-anchor="middle">"El Muro"</text>
+
+                    <circle cx="750" cy="65" r="5" fill="var(--chicago-red)"></circle>
+                    <text x="750" y="45" font-size="10" font-family="Arial" text-anchor="middle">Mt. Roosevelt</text>
+
+                    <circle cx="780" cy="85" r="4" fill="var(--chicago-blue)"></circle>
+                    <text x="780" y="105" font-size="10" font-family="Arial" text-anchor="middle">Meta</text>
+                </svg>
+            </div>
+
+            <p><strong>Puntos donde agarrar ritmo:</strong> Km 12 al 25. Las calles son anchas, hay mucha gente animando y el piso es perfecto. Es el momento de sentirte cómodo a 5:25 - 5:30 min/km sin forzar.</p>
+            <p><strong>Puntos donde conservar energía:</strong> Km 0 al 5 (no gastes energía esquivando gente). Km 28 al 32 (Chinatown a Pilsen) donde el cansancio empieza a asomarse. Aquí ganamos la carrera manteniendo la calma.</p>
+
+            <h2 class="section-title">4. Estrategia de Ritmo (Pacing)</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Segmento (Km)</th>
+                        <th>Ritmo Obj. (min/km)</th>
+                        <th>Tiempo Acumulado</th>
+                        <th>Consejos para este tramo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0 - 5</td>
+                        <td>5:40</td>
+                        <td>0:28:20</td>
+                        <td>Salida muy conservadora. Reloj sin GPS confiable. <span class="td-alert">Paciencia, no esquives gente.</span></td>
+                    </tr>
+                    <tr>
+                        <td>5 - 10</td>
+                        <td>5:35</td>
+                        <td>0:56:15</td>
+                        <td>La ruta se abre. Vamos soltando las piernas poco a poco.</td>
+                    </tr>
+                    <tr>
+                        <td>10 - 15</td>
+                        <td>5:30</td>
+                        <td>1:23:45</td>
+                        <td>Encontramos nuestro ritmo cómodo de viaje. Respira tranquilo.</td>
+                    </tr>
+                    <tr>
+                        <td>15 - 21.1</td>
+                        <td>5:25</td>
+                        <td>1:56:45</td>
+                        <td>Ritmo ideal. Llegamos a la mitad frescos y con energía de sobra.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-highlight">21.1 - 30</td>
+                        <td class="td-highlight">5:25 - 5:30</td>
+                        <td class="td-highlight">2:45:00</td>
+                        <td>Mantén el paso. Si te sientes muy bien, guarda esa energía, la vas a necesitar.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-alert">30 - 35</td>
+                        <td class="td-alert">5:30</td>
+                        <td class="td-alert">3:12:30</td>
+                        <td>Empieza el cansancio real. Mantén la espalda recta y usa los brazos.</td>
+                    </tr>
+                    <tr>
+                        <td>35 - 40</td>
+                        <td>5:35</td>
+                        <td>3:40:25</td>
+                        <td>Corazón y mente. Ya no mires el reloj, solo concéntrate en avanzar.</td>
+                    </tr>
+                    <tr>
+                        <td>40 - 42.2</td>
+                        <td>5:30 - ¡A tope!</td>
+                        <td>3:52:30</td>
+                        <td>¡La meta está ahí! Sube el puente con fuerza y disfruta tu llegada.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <footer class="page-footer">
+            <span>Guía de Carrera | Maratón de Chicago</span>
+            <span>Página 2</span>
+        </footer>
+    </section>
+
+    <!-- ========================================================
+         PAGE 3: NUTRITION AND HYDRATION PLAN
+         ======================================================== -->
+    <section class="page">
+        <div class="page-content">
+            <h2 class="section-title">5. Plan de Nutrición</h2>
+            
+            <p><strong>La regla de oro:</strong> Tal como lo hemos practicado, tomaremos <strong>un gel cada 6 kilómetros</strong>. El cuerpo ya está acostumbrado a esta rutina, así no saturamos el estómago y mantenemos el "combustible" siempre lleno. Usa sorbos pequeños de agua al tomar tu gel.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Momento</th>
+                        <th>Kilómetro</th>
+                        <th>¿Qué tomar?</th>
+                        <th>Por qué lo tomamos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Día Anterior</td>
+                        <td>-</td>
+                        <td>Comida rica en carbohidratos</td>
+                        <td>Para llenar el tanque de energía del cuerpo.</td>
+                    </tr>
+                    <tr>
+                        <td>Desayuno (-3h)</td>
+                        <td>-</td>
+                        <td>Avena, pan tostado, plátano</td>
+                        <td>Energía para arrancar la mañana.</td>
+                    </tr>
+                    <tr>
+                        <td>Pre-Salida (-15m)</td>
+                        <td>0</td>
+                        <td>1 Gel Normal</td>
+                        <td>Un empujón justo antes de que suene el disparo.</td>
+                    </tr>
+                    <tr>
+                        <td>Carrera</td>
+                        <td>Km 6</td>
+                        <td>1 Gel Normal</td>
+                        <td>Primera recarga, mantén el ritmo suave.</td>
+                    </tr>
+                    <tr>
+                        <td>Carrera</td>
+                        <td>Km 12</td>
+                        <td>1 Gel Normal</td>
+                        <td>Para seguir sintiéndonos fuertes.</td>
+                    </tr>
+                    <tr>
+                        <td>Carrera</td>
+                        <td>Km 18</td>
+                        <td>1 Gel Normal</td>
+                        <td>Energía lista antes de llegar a la mitad de la carrera.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-highlight">Carrera</td>
+                        <td class="td-highlight">Km 24</td>
+                        <td class="td-highlight">1 Gel con Cafeína</td>
+                        <td>Un toque de alerta para despertar el cuerpo.</td>
+                    </tr>
+                    <tr>
+                        <td>Carrera</td>
+                        <td>Km 30</td>
+                        <td>1 Gel Normal</td>
+                        <td>Energía clave para cruzar el "muro" con fuerza.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-alert">Carrera</td>
+                        <td class="td-alert">Km 36</td>
+                        <td class="td-alert"><span class="td-highlight">1 Gel con Cafeína</span></td>
+                        <td>¡Último empujón! Te dará la chispa final hasta la meta.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="section-title">6. Plan de Hidratación</h2>
+            
+            <p>El maratón cuenta con 20 Aid Stations oficiales. <strong>Regla de oro: No te saltes estaciones en la primera mitad, incluso si no tienes sed.</strong></p>
+
+            <div class="callout">
+                <span class="callout-title">Ubicación de las Aid Stations (¡Ojo en estos Kilómetros!)</span>
+                <p style="margin-bottom: 8px;">Las estaciones de hidratación están aproximadamente en los siguientes kilómetros. Prepárate visualmente cuando te acerques a ellos:</p>
+                <p><strong>Km 2.5, Km 5, Km 8, Km 11.5, Km 13.5, Km 16, Km 19, Km 21, Km 23, Km 25.5, Km 28, Km 30.5, Km 32.5, Km 34.5, Km 37.5, Km 39, Km 41.</strong></p>
+            </div>
+
+            <div class="callout">
+                <span class="callout-title">Ajuste por Clima (Día de Carrera):</span>
+                <ul style="margin-bottom: 0;">
+                    <li><strong>Clima Fresco (5°C - 10°C):</strong> 1 vaso de agua cada 5km. Alternar con electrolitos cada 10km.</li>
+                    <li><strong>Clima Templado (11°C - 16°C):</strong> 1 vaso de agua cada estación alterna. Electrolitos cada 8km.</li>
+                    <li><strong>Clima Cálido (&gt;17°C o Alta Humedad):</strong> Beber en TODAS las estaciones. Alternar Agua / Gatorade. Ingerir 1 pastilla de sal (SaltStick) cada hora (Km 10, 20, 30).</li>
+                </ul>
+            </div>
+
+        </div>
+        <footer class="page-footer">
+            <span>Guía de Carrera | Maratón de Chicago</span>
+            <span>Página 3</span>
+        </footer>
+    </section>
+
+    <!-- ========================================================
+         PAGE 4: COMPLETE RACE MATRIX
+         ======================================================== -->
+    <section class="page">
+        <div class="page-content">
+            <h2 class="section-title">7. Matriz Completa de Carrera</h2>
+            
+            <p>Aquí tienes el resumen paso a paso de tu carrera: a qué ritmo ir, cuándo comer y qué pensar.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Km</th>
+                        <th>Tiempo Aprox.</th>
+                        <th>Ritmo</th>
+                        <th>Acción (Geles y Agua)</th>
+                        <th>¿Qué pensar?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>0</strong></td>
+                        <td>0:00</td>
+                        <td>-</td>
+                        <td>Gel (-15 min)</td>
+                        <td><strong>Calma.</strong> Disfruta el ambiente, no dejes que la emoción te haga correr rápido.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5</strong></td>
+                        <td>0:28</td>
+                        <td>5:40</td>
+                        <td>Beber 1 vaso de agua.</td>
+                        <td><strong>Paciencia.</strong> El reloj puede fallar, guíate por sentirte muy relajado.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6</strong></td>
+                        <td>0:34</td>
+                        <td>5:35</td>
+                        <td><strong>Tomar Gel Normal.</strong></td>
+                        <td>Seguimos calentando motores.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>12</strong></td>
+                        <td>1:07</td>
+                        <td>5:30</td>
+                        <td><strong>Tomar Gel Normal.</strong> Agua.</td>
+                        <td><strong>Ritmo.</strong> Disfruta la ciudad, ya encontraste tu paso cómodo.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>18</strong></td>
+                        <td>1:40</td>
+                        <td>5:25</td>
+                        <td><strong>Tomar Gel Normal.</strong> Agua.</td>
+                        <td><strong>Fluidez.</strong> Te sientes genial. No aceleres de más.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>21.1</strong></td>
+                        <td>1:56</td>
+                        <td>5:25</td>
+                        <td>Agua + Electrolitos.</td>
+                        <td><strong>Chequeo.</strong> Estás a la mitad. "Me siento como si recién hubiera salido".</td>
+                    </tr>
+                    <tr>
+                        <td class="td-highlight"><strong>24</strong></td>
+                        <td class="td-highlight">2:12</td>
+                        <td class="td-highlight">5:25</td>
+                        <td><strong>Tomar Gel con Cafeína.</strong></td>
+                        <td><strong>Enfoque.</strong> La carrera de verdad se acerca.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-alert"><strong>30</strong></td>
+                        <td class="td-alert">2:45</td>
+                        <td class="td-alert">5:30</td>
+                        <td><strong>Tomar Gel Normal.</strong></td>
+                        <td><strong>Fuerza.</strong> Aquí empieza el reto. Piensa en tu entrenamiento.</td>
+                    </tr>
+                    <tr>
+                        <td class="td-alert"><strong>36</strong></td>
+                        <td class="td-alert">3:18</td>
+                        <td class="td-alert">5:35</td>
+                        <td><strong>Gel con Cafeína.</strong> Beber agua.</td>
+                        <td><strong>Corazón.</strong> Va a doler un poco, acéptalo y sigue moviendo los brazos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>40</strong></td>
+                        <td>3:40</td>
+                        <td>5:35</td>
+                        <td>Beber agua.</td>
+                        <td><strong>Cierre.</strong> La multitud regresa. Quedan solo 2 km, ¡tú puedes!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>42.2</strong></td>
+                        <td>3:52</td>
+                        <td>A tope</td>
+                        <td>¡Línea de Meta!</td>
+                        <td><strong>¡Lo lograste!</strong> Levanta la cabeza y los brazos para la foto.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout" style="margin-top: 20px;">
+                <span class="callout-title">Protocolo Maurten Fuel Depots</span>
+                <p style="margin-bottom: 0;">Chicago Marathon cuenta con zonas oficiales de geles Maurten en el recorrido (aprox. Km 21 y Km 30). <strong>Recomendación:</strong> Lleva tu propia nutrición con la que has entrenado. Solo usa los Maurten del recorrido como respaldo de emergencia si pierdes un gel.</p>
+            </div>
+
+        </div>
+        <footer class="page-footer">
+            <span>Guía de Carrera | Maratón de Chicago</span>
+            <span>Página 4</span>
+        </footer>
+    </section>
+
+    <!-- ========================================================
+         PAGE 5: MENTAL PLAN & CHECKLISTS
+         ======================================================== -->
+    <section class="page">
+        <div class="page-content">
+            <h2 class="section-title">8. Plan Mental (Actitud Positiva)</h2>
+            
+            <p>El cuerpo te lleva hasta el kilómetro 30; tu mente te lleva hasta la meta. Usa estas ideas simples durante la ruta:</p>
+
+            <ul style="margin-bottom: 20px;">
+                <li><strong>Km 0 - 10 (El Turista):</strong> Disfruta la ciudad, asimila lo grande que es el evento. Mantén la emoción controlada. <em>Piensa: "Suave, ligero, con calma."</em></li>
+                <li><strong>Km 10 - 21 (El Reloj):</strong> Modo automático. Concéntrate en tu cuerpo: hombros relajados, respira tranquilo. <em>Piensa: "Soy un reloj, paso a paso."</em></li>
+                <li><strong>Km 21 - 30 (El Trabajador):</strong> El esfuerzo empieza a sentirse. Acepta que el trabajo real inicia aquí. <em>Piensa: "Me siento fuerte y estable."</em></li>
+                <li><strong>Km 30 - 35 (El Guerrero):</strong> Tu mente intentará convencerte de caminar o parar. Engáñala poniéndote metas cortas (el siguiente árbol, la siguiente estación de agua). <em>Piensa: "Un kilómetro a la vez, yo controlo esto."</em></li>
+                <li><strong>Km 35 - Meta (Puro Corazón):</strong> Solo importan los brazos; si los mueves con energía, las piernas te van a seguir. <em>Piensa: "No me rindo, ya casi llego."</em></li>
+            </ul>
+
+            <div class="grid-2">
+                <div>
+                    <h2 class="section-title" style="font-size: 14pt;">9. Lista de Compras</h2>
+                    <ul style="font-size: 9.5pt;">
+                        <li><strong>Geles Normales:</strong> 5 unidades (4 para la carrera, 1 extra de emergencia).</li>
+                        <li><strong>Geles con Cafeína:</strong> 3 unidades (2 para la carrera, 1 extra de emergencia).</li>
+                        <li><strong>Hidratación:</strong> Pastillas de sal (ej. SaltStick) en una bolsita ziploc.</li>
+                        <li><strong>Equipamiento:</strong>
+                            <ul>
+                                <li>Cinturón para llevar los geles.</li>
+                                <li>Gorra (muy útil para sol o viento).</li>
+                                <li>Vaselina (ponte bastante para evitar roces).</li>
+                                <li>Seguros (imperdibles) para el número.</li>
+                                <li>Bloqueador solar.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="section-title" style="font-size: 14pt;">10. Checklist Final</h2>
+                    <ul style="font-size: 9.5pt;">
+                        <li><strong>7 días antes:</strong> Reducir volumen de kilómetros (Tapering). Priorizar sueño (8-9 horas).</li>
+                        <li><strong>3 días antes:</strong> Iniciar carga de carbohidratos. Cortar fibra excesiva y carnes rojas.</li>
+                        <li><strong>Día anterior:</strong> Recoger dorsal en la Expo. Caminar lo mínimo posible. Cena alta en CH a las 18:00h (Pasta blanca, arroz). Preparar el kit de carrera.</li>
+                        <li><strong>Mañana de carrera:</strong> Despertar 3h antes. Desayunar lo probado. Aplicar vaselina en axilas, muslos, pezones y pies.</li>
+                        <li><strong>Llegada a la salida:</strong> Entrar a tu corral (Corral asignado) 45 minutos antes. Llevar ropa vieja para abrigarte y descartarla antes del inicio.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout" style="text-align: center; margin-top: 10px; background: var(--slate-100); border-left: none; border-top: 4px solid var(--chicago-blue);">
+                <p style="font-size: 12pt; font-style: italic; font-weight: bold; color: var(--chicago-blue); margin-bottom: 0;">
+                    "El maratón es una prueba de paciencia en la primera mitad, y de carácter en la segunda. Tienes el entrenamiento, tienes el plan. Ejecuta."
+                </p>
+            </div>
+
+        </div>
+        <footer class="page-footer">
+            <span>Guía de Carrera | Maratón de Chicago</span>
+            <span>Página 5</span>
+        </footer>
+    </section>
+
+</div>
+
+</body></html>
